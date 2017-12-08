@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>The Psychic Game</title>
+</head>
+
+<body>
+
+  <div id="game">
+  		<h1>The Psychic Game</h1>
+        <p>Guess what letter I'm thinking of!</p>
+        <p>Total Wins: </p>
+        <p>Total Losses: </p>
+        <p>Guesses Left: </p>
+        <p>Your Guesses so far: </p>
+
+    <p>To begin, click a letter!</p>
+  </div>
+
+  <script type="text/javascript">
+    // Creates an array that lists out all of the options (Rock, Paper, or Scissors).
+    // var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+    //var first = "a", last = "z";
+	//for (var i = first.charCodeAt(0); i <= last.charCodeAt(0); i++);
+
+
+
+    // Creating variables to hold the number of wins, losses, and ties. They start at 0.
+    var wins = 0;
+    var losses = 0;
+    var guesses = 10;
+    var numberGuesses = [];
+
+    // This function is run whenever the user presses a key.
+    document.onkeyup = function(event) {
+
+      // Determines which key the user presses.
+      var userGuess = event.key;
+      numberGuesses.push(userGuess);
+      // Randomly chooses a choice from the options array. This is the Computer's guess.
+      // var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+    var computerGuess = "";
+  	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+  	for (var i = 0; i < 1; i++)
+    computerGuess += possible.charAt(Math.floor(Math.random() * possible.length));
+
+      
+
+
+      // Reworked our code from last step to use "else if" instead of lots of if statements.
+
+      // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate number
+       if (userGuess == computerGuess) {
+            wins++;
+            alert("Way to go! You've guesesed corrrectly. You Won!");
+            guesses = 10; //reseting the guesses back to 9 so that the user can play again
+            numberGuesses.length = 0; //this removes everything from the guesses so far array, so that the guesses from the previous round don't show
+        }
+        if (guesses == 0){
+            losses++;
+            alert("You didn't guess the correct letter. You lost. Let's try again.");
+            guesses = 10;
+            numberGuesses.length = 0;
+        }
+        if (userGuess !== computerGuess){
+            guesses--; //decrementing the guesses left
+        } 
+
+
+        // Creating a variable to hold our new HTML. Our HTML now keeps track of the user and computer guesses, and wins/losses/ties.
+        var html =
+          "<h1>The Psychic Game</h1>" +
+          "<p>Guess what letter I'm thinking of..</p>" +
+          "<p>You chose: " + userGuess + "</p>" +
+          "<p>The computer chose: " + computerGuess + "</p>" +
+          "<p>wins: " + wins + "</p>" +
+          "<p>losses: " + losses + "</p>" +
+          "<p>Guesses Left: " + guesses + "</p>" +
+          "<p>Your Guesses so far: " + numberGuesses + "</p>";
+
+        // Set the inner HTML contents of the #game div to our html string
+        document.querySelector("#game").innerHTML = html;
+      
+    }
+  </script>
+
+</body>
+
+</html>
