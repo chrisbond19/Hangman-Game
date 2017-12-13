@@ -1,70 +1,91 @@
-<!DOCTYPE html>
-<html lang="en-us">
+// Creates a random word used from the array.
+  var randomWordArray = ["zombie", "michael", "jackson", "thiller", "monster"]
+  var randomWord = randomWordArray[Math.floor(Math.random() * randomWordArray.length)];
+  //Test random word
+  console.log(randomWord);
+//Splits the choosen word into individual letters
 
-<head>
-  <meta charset="UTF-8">
-  <title>Rock Paper Scissors Part 7</title>
-</head>
 
-<body>
+var wins = 0;
+var losses = 0;
+var guessesLeft = 10;
+var rightWord = [];
+var wrongWord = [];
+var doubleWord = ['a','b','c',
+                  'd','e','f',
+                  'g','h','i',
+                  'j','k','l',
+                  'm','n','o',
+                  'p','q','r',
+                  's','t','u',
+                  'v','w','x',
+                  'y','z'];
 
-  <div id="game">
-    <p>Press r, p or s to start playing!</p>
-  </div>
 
-  <script type="text/javascript">
-    // Creates an array that lists out all of the options (Rock, Paper, or Scissors).
-    var computerChoices = ["r", "p", "s"];
+// Creates underscores for the amount of letters in a word.
+var underScores = [];
 
-    // Creating variables to hold the number of wins, losses, and ties. They start at 0.
-    var wins = 0;
-    var losses = 0;
-    var ties = 0;
+for(var i = 0; i < randomWord.length; i++){
+      // underScores.push("_");
+      underScores[i]="_";  
+}
 
-    // This function is run whenever the user presses a key.
-    document.onkeyup = function(event) {
 
-      // Determines which key was pressed.
-      var userGuess = event.key;
+var lettersLeft = randomWord.length;
 
-      // Randomly chooses a choice from the options array. This is the Computer's guess.
-      var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+if (lettersLeft > 0){
+  underScores.join(" ");
+  lettersLeft--;
+}
 
-      // Reworked our code from last step to use "else if" instead of lots of if statements.
 
-      // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate number
-      if ((userGuess === "r") || (userGuess === "p") || (userGuess === "s")) {
 
-        if ((userGuess === "r") && (computerGuess === "s")) {
-          wins++;
-        } else if ((userGuess === "r") && (computerGuess === "p")) {
-          losses++;
-        } else if ((userGuess === "s") && (computerGuess === "r")) {
-          losses++;
-        } else if ((userGuess === "s") && (computerGuess === "p")) {
-          wins++;
-        } else if ((userGuess === "p") && (computerGuess === "r")) {
-          wins++;
-        } else if ((userGuess === "p") && (computerGuess === "s")) {
-          losses++;
-        } else if (userGuess === computerGuess) {
-          ties++;
-        }
 
-        // Creating a variable to hold our new HTML. Our HTML now keeps track of the user and computer guesses, and wins/losses/ties.
-        var html =
-          "<p>You chose: " + userGuess + "</p>" +
-          "<p>The computer chose: " + computerGuess + "</p>" +
-          "<p>wins: " + wins + "</p>" +
-          "<p>losses: " + losses + "</p>" +
-          "<p>ties: " + ties + "</p>";
+// Create user guess
+document.onkeyup = function(event) {
+  var userKey = event.key;
+  console.log(userKey);
+  // If the user chooses correct letter
+  if (randomWord.indexOf(userKey) > -1){
+    // Push letters to right word array
+    rightWord.push(userKey);
+    //Function which detects if the string contains duplicate characters
+    //If it does, then you want to find the FIRST unfilled index
+    //If it does not, then you can simply push the letter 
+    underScores[randomWord.indexOf(userKey)] = userKey;
+    // Detects which underscore should be replaced
+    if (underScores.join(' ') == randomWord) {
+      alert("You win!");
+    }
+
+    console.log(rightWord);
+  }
+  if (guessesLeft === 0){
+    alert("You lose! Prepare for Thiller!");
+    losses++;
+  }
+  else{
+    // Push letters to wrong word array
+    wrongWord.push(userKey);
+    guessesLeft--;
+    console.log(wrongWord);
+  }
+
+          var html =
+          "<h1>The Hangman Game</h1>" +
+          "<p><h2>Guess what letter I'm thinking of..</h2></p>" +
+          "<br>" +
+          "<br>" +
+          "<p>" + underScores.join(" ") + "</p>" +
+          "<br>" +
+          "<br>" +
+          "<p>You have " + lettersLeft + " letters left</p>" +
+          "<p>Wins: " + wins + "</p>" +
+          "<p>Losses: " + losses + "</p>" +
+          "<p>Guesses left: " + guessesLeft + "</p>";
 
         // Set the inner HTML contents of the #game div to our html string
         document.querySelector("#game").innerHTML = html;
-      }
-    };
-  </script>
 
-</body>
+};
 
-</html>
