@@ -11,16 +11,6 @@ var losses = 0;
 var guessesLeft = 10;
 var rightWord = [];
 var wrongWord = [];
-var doubleWord = ['a','b','c',
-                  'd','e','f',
-                  'g','h','i',
-                  'j','k','l',
-                  'm','n','o',
-                  'p','q','r',
-                  's','t','u',
-                  'v','w','x',
-                  'y','z'];
-
 
 // Creates underscores for the amount of letters in a word.
 var underScores = [];
@@ -29,16 +19,11 @@ for(var i = 0; i < randomWord.length; i++){
       // underScores.push("_");
       underScores[i]="_";  
 }
-
-
-var lettersLeft = randomWord.length;
-
-if (lettersLeft > 0){
-  underScores.join(" ");
-  lettersLeft--;
+//Start game over when win or loss
+function reset(){
+  var randomWord = randomWordArray[Math.floor(Math.random() * randomWordArray.length)];
+  var guessesLeft = 10;
 }
-
-
 
 
 // Create user guess
@@ -55,7 +40,9 @@ document.onkeyup = function(event) {
     underScores[randomWord.indexOf(userKey)] = userKey;
     // Detects which underscore should be replaced
     if (underScores.join(' ') == randomWord) {
+      wins++;
       alert("You win!");
+      reset();
     }
 
     console.log(rightWord);
@@ -63,6 +50,7 @@ document.onkeyup = function(event) {
   if (guessesLeft === 0){
     alert("You lose! Prepare for Thiller!");
     losses++;
+    reset();
   }
   else{
     // Push letters to wrong word array
@@ -76,10 +64,9 @@ document.onkeyup = function(event) {
           "<p><h2>Guess what letter I'm thinking of..</h2></p>" +
           "<br>" +
           "<br>" +
-          "<p>" + underScores.join(" ") + "</p>" +
+          "<p><h2>" + underScores.join(" ") + "</h2></p>" +
           "<br>" +
           "<br>" +
-          "<p>You have " + lettersLeft + " letters left</p>" +
           "<p>Wins: " + wins + "</p>" +
           "<p>Losses: " + losses + "</p>" +
           "<p>Guesses left: " + guessesLeft + "</p>";
